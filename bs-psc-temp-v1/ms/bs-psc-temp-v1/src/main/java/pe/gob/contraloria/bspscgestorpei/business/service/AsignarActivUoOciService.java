@@ -12,6 +12,6 @@ public interface AsignarActivUoOciService {
 
 
     List<AsignarActivUoOciResponse> listaActividadUoOci(int pageSize , int pageNumber, String ordenar);
-   AsignarActivUoOciResponse createAsignacion(AsignarActividadRequest req, String ipClient, String userLogin);
+    List<AsignarActivUoOciResponse> createAsignacion(AsignarActividadRequest req, String ipClient, String userLogin);
 
 }

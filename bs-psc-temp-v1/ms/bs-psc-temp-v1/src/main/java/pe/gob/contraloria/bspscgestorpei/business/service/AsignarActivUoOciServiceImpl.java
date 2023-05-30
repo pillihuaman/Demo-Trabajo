@@ -44,8 +44,9 @@ public class AsignarActivUoOciServiceImpl implements AsignarActivUoOciService {
     }
 
     @Override
-    public AsignarActivUoOciResponse createAsignacion(AsignarActividadRequest req, String ipClient, String userLogin) {
+    public List<AsignarActivUoOciResponse> createAsignacion(AsignarActividadRequest req, String ipClient, String userLogin) {
         log.info("SscPscPeiEquipoServiceImpl.createPeiEquipo(request={}, ipClient={}, userLogin={})", req);
+    List<AsignarActivUoOciResponse> res= new ArrayList<>();
         if (Boolean.TRUE.equals(isValid(req))) {
             for (OrganoControlRequest reqs:
                     req.getListOrganoControlRequest() ) {
@@ -58,6 +59,7 @@ public class AsignarActivUoOciServiceImpl implements AsignarActivUoOciService {
                         sccPsx.setCaocIpIns(ipClient);
                         sccPsx.setDaocFecIns(new Date());
                         SscPscPeiActividadOrgctrl saved = asignarActivUoOciRepository.save(sccPsx);
+                        res.add(ActivUoOciResToActividadOrgctrl(saved));
                         log.info(" saved = {}  ", saved.toString());
                     }
 
@@ -65,12 +67,7 @@ public class AsignarActivUoOciServiceImpl implements AsignarActivUoOciService {
 
             }
 
-
-            return null;
-
-
-
-
+            return res;
         }
         return null;
     }

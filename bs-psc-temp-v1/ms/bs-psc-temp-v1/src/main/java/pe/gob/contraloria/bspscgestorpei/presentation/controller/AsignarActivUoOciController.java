@@ -35,12 +35,12 @@ public class AsignarActivUoOciController {
 
 	@PostMapping("/crearActivUoOci")
 	@Validated
-	public ResponseEntity<ResponseApi<AsignarActividadRequest>> createAsignacion(
+	public ResponseEntity<ResponseApi<List<AsignarActivUoOciResponse>>> createAsignacion(
 			@Parameter(in = ParameterIn.HEADER, required = true) @RequestHeader(value = "ip-client", required = true) String ipClient,
 			@Parameter(in = ParameterIn.HEADER, required = true) @RequestHeader(value = "user-login", required = true) String userLogin,
-			@Valid @RequestBody AsignarActivUoOciRequest asignarActivUoOciRequest, @RequestHeader HttpHeaders headers) {
+			@Valid @RequestBody AsignarActividadRequest asignarActivUoOciRequest, @RequestHeader HttpHeaders headers) {
 		logger.info("AsignarActivUoOciController createAsignacion(ipClient={}, userLogin={} , asignarActivUoOciRequest={} )", ipClient, userLogin, asignarActivUoOciRequest.toString());
-		AsignarActivUoOciResponse obj = asignarActivUoOciService.createAsignacion(asignarActivUoOciRequest,ipClient,userLogin);
+		List<AsignarActivUoOciResponse> obj = asignarActivUoOciService.createAsignacion(asignarActivUoOciRequest,ipClient,userLogin);
 		if (obj == null)
 			return new ResponseEntity<>( new ResponseApi<>(obj, messages.notAceptableMessage, HttpStatus.NOT_ACCEPTABLE.value()), HttpStatus.NOT_ACCEPTABLE);
 		logger.info("createAsignacion response: {}  ", obj);
