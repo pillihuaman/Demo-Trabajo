@@ -11,8 +11,7 @@ import org.springframework.stereotype.Service;
 import pe.gob.contraloria.bspscgestorpei.business.client.pojo.HeaderRequest;
 import pe.gob.contraloria.bspscgestorpei.persistence.model.SscPscPeiActividadOrgctrl;
 import pe.gob.contraloria.bspscgestorpei.persistence.repository.AsignarActivUoOciRepository;
-import pe.gob.contraloria.bspscgestorpei.presentation.dto.AsignarActivUoOciRequest;
-import pe.gob.contraloria.bspscgestorpei.presentation.dto.AsignarActivUoOciResponse;
+import pe.gob.contraloria.bspscgestorpei.presentation.dto.*;
 import pe.gob.contraloria.bspscgestorpei.util.Constantes;
 import pe.gob.contraloria.bspscgestorpei.util.LoadConstants;
 
@@ -45,16 +44,33 @@ public class AsignarActivUoOciServiceImpl implements AsignarActivUoOciService {
     }
 
     @Override
-    public AsignarActivUoOciResponse createAsignacion(AsignarActivUoOciRequest req, String ipClient, String userLogin) {
+    public AsignarActivUoOciResponse createAsignacion(AsignarActividadRequest req, String ipClient, String userLogin) {
         log.info("SscPscPeiEquipoServiceImpl.createPeiEquipo(request={}, ipClient={}, userLogin={})", req);
         if (Boolean.TRUE.equals(isValid(req))) {
-            SscPscPeiActividadOrgctrl sccPsx = ActivUoOciReqToActividadOrgctrl(req);
-            sccPsx.setCaocUsuIns(userLogin);
-            sccPsx.setCaocIpIns(ipClient);
-            sccPsx.setDaocFecIns(new Date());
-            SscPscPeiActividadOrgctrl saved = asignarActivUoOciRepository.save(sccPsx);
-            log.info(" saved = {}  ", saved.toString());
-            return ActivUoOciResToActividadOrgctrl(saved);
+            for (OrganoControlRequest reqs:
+                    req.getListOrganoControlRequest() ) {
+                for (ActividaRequest re :
+                        reqs.getListActividad() ) {
+                    for (AsignarActivUoOciRequest ret   :
+                            re.getListAsignarActivUoOciRequest()) {
+                        SscPscPeiActividadOrgctrl sccPsx = ActivUoOciReqToActividadOrgctrl(ret);
+                        sccPsx.setCaocUsuIns(userLogin);
+                        sccPsx.setCaocIpIns(ipClient);
+                        sccPsx.setDaocFecIns(new Date());
+                        SscPscPeiActividadOrgctrl saved = asignarActivUoOciRepository.save(sccPsx);
+                        log.info(" saved = {}  ", saved.toString());
+                    }
+
+                }
+
+            }
+
+
+            return null;
+
+
+
+
         }
         return null;
     }
@@ -116,7 +132,7 @@ public class AsignarActivUoOciServiceImpl implements AsignarActivUoOciService {
         return resp;
     }
 
-    public Boolean isValid(AsignarActivUoOciRequest request) {
+    public Boolean isValid(AsignarActividadRequest request) {
         return true;
     }
 }

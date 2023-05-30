@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import pe.gob.contraloria.bspscgestorpei.business.service.AsignarActivUoOciService;
 import pe.gob.contraloria.bspscgestorpei.presentation.dto.AsignarActivUoOciRequest;
 import pe.gob.contraloria.bspscgestorpei.presentation.dto.AsignarActivUoOciResponse;
+import pe.gob.contraloria.bspscgestorpei.presentation.dto.AsignarActividadRequest;
 import pe.gob.contraloria.bspscgestorpei.util.Constantes;
 import pe.gob.contraloria.bspscgestorpei.util.LoadMessages;
 import pe.gob.contraloria.bspscgestorpei.util.ResponseApi;
@@ -34,7 +35,7 @@ public class AsignarActivUoOciController {
 
 	@PostMapping("/crearActivUoOci")
 	@Validated
-	public ResponseEntity<ResponseApi<AsignarActivUoOciResponse>> createAsignacion(
+	public ResponseEntity<ResponseApi<AsignarActividadRequest>> createAsignacion(
 			@Parameter(in = ParameterIn.HEADER, required = true) @RequestHeader(value = "ip-client", required = true) String ipClient,
 			@Parameter(in = ParameterIn.HEADER, required = true) @RequestHeader(value = "user-login", required = true) String userLogin,
 			@Valid @RequestBody AsignarActivUoOciRequest asignarActivUoOciRequest, @RequestHeader HttpHeaders headers) {
